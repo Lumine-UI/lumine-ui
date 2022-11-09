@@ -1,22 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { View as CView } from 'lumine-ui';
+import { StyleSheet } from 'react-native';
+import { View, Text, Button } from 'lumine-ui';
+import { ComponentType, TextType, ButtonType } from 'lumine-ui';
+
+const t: TextType = {
+  type: 'Text',
+  text: 'John China',
+  textProps: {
+    style: {
+      fontSize: 48,
+      color: 'white',
+      fontWeight: 'bold',
+    },
+  },
+};
+
+const b: ButtonType = {
+  type: 'Button',
+  buttonProps: {
+    mode: 'contained',
+  },
+  child: t
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <CView viewProps={{ style: { backgroundColor: 'red', flex: 1, width: 100 } }} />
-    </View>
+    <View viewProps={{
+      style: styles.container
+    }}
+    children={[
+      b as ComponentType
+    ]}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
+    width: '100%',
     justifyContent: 'center',
   },
 });
