@@ -1,45 +1,33 @@
-import { StyleSheet } from 'react-native';
-import { View, Text, Button } from 'lumine-ui';
-import { ComponentType, TextType, ButtonType } from 'lumine-ui';
+import { Presentation, PresentationData, NavHost } from "lumine-ui";
+import React from "react";
+import {LogBox} from 'react-native'
 
-const t: TextType = {
-  type: 'Text',
-  text: 'John China',
-  textProps: {
-    style: {
-      fontSize: 48,
-      color: 'white',
-      fontWeight: 'bold',
-    },
-  },
-};
+LogBox.ignoreLogs(['Require cycle:']);
 
-const b: ButtonType = {
-  type: 'Button',
-  buttonProps: {
-    mode: 'contained',
-  },
-  child: t
+const defaultPresentation: PresentationData = {
+  components: [],
 };
 
 export default function App() {
+  const [presentationData, setPresentationData] =
+    React.useState<PresentationData>(defaultPresentation);
+
+  React.useEffect(() => {
+    async function init() {
+      try {
+        const response = await fetch("http://localhost:5000/");
+        const data = await response.json();
+        console.log(data);
+        setPresentationData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    init();
+  }, []);
   return (
-    <View viewProps={{
-      style: styles.container
-    }}
-    children={[
-      b as ComponentType
-    ]}
-    />
+    <NavHost>
+      <Presentation components={presentationData.components} />
+    </NavHost>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'red',
-    alignItems: 'center',
-    width: '100%',
-    justifyContent: 'center',
-  },
-});
