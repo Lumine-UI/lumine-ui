@@ -6,6 +6,7 @@ import type {
   TextStyle,
   StatusBarProps,
   OpaqueColorValue,
+  ImageProps
 } from "react-native";
 import type Color from "../../constants/colors";
 
@@ -21,6 +22,7 @@ export type ComponentType =
   | "Ionicon"
   | "Screen"
   | "Navigator"
+  | "Image"
   | "LumineContextComponent";
 
 export type ActionType =
@@ -70,9 +72,6 @@ export interface Text extends Component {
   onPressIn?: string | undefined;
   onPressOut?: string | undefined;
   onLongPress?: string | undefined;
-}
-export interface ImageType extends Component{
-  url?: string
 }
 
 export interface View extends Component {
@@ -171,6 +170,18 @@ export interface ScrollViewType extends Component {
   orientation: Orientation;
   items: Component[];
 }
+
+export interface Image extends Component {
+  imageProps?: ImageProps,
+  onProgress?: Action | string | undefined;
+  onPartialLoad?: Action | string | undefined;
+  onLayout?: Action | string | undefined;
+  onError?: Action | string | undefined;
+  onLoad?: Action | string | undefined;
+  onLoadEnd?: Action | string | undefined; 
+  onLoadStart?: Action | string | undefined;
+}
+
 export interface PresentationData {
   components: Component[];
 }

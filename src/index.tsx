@@ -6,6 +6,8 @@ import IoniconImpl from "./components/Ionicon";
 import ScreenImpl from "./components/Screen";
 import NavigatorImpl from "./components/Navigator";
 import StatusBarImpl from "./components/StatusBar";
+import ImageImpl from "./components/Image";
+
 import NavHost from "./components/NavHost";
 import { Render } from "./components/Render";
 
@@ -18,6 +20,7 @@ import type {
   Screen,
   Navigator,
   StatusBar,
+  Image,
   PresentationData
 } from "./components/types";
 
@@ -37,6 +40,8 @@ export {
   NavigatorImpl as Navigator,
   StatusBar as StatusBarType,
   StatusBarImpl as StatusBar,
+  Image as ImageType,
+  ImageImpl as Image,
   NavHost,
   Render,
   PresentationData,

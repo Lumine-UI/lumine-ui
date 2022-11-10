@@ -9,6 +9,7 @@ import type {
   Ionicon,
   Navigator,
   Screen,
+  Image
 } from "./types";
 import TextImpl from "./Text";
 import ViewImpl from "./View";
@@ -18,6 +19,7 @@ import LumineContextComponentImpl from "./LumineContextComponent";
 import IoniconImpl from "./Ionicon";
 import ScreenImpl from "./Screen";
 import NavigatorImpl from "./Navigator";
+import ImageImpl from "./Image";
 
 const Render: React.FC<{ component: Component; key?: string | number }> = ({
   component,
@@ -45,6 +47,8 @@ const Render: React.FC<{ component: Component; key?: string | number }> = ({
           {...(component as LumineContextComponent)}
         />
       );
+    case "Image":
+      return <ImageImpl key={key} {...(component as Image)} />;
     default:
       return null;
   }
