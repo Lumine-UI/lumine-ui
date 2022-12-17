@@ -4,6 +4,8 @@ import {LogBox} from 'react-native'
 
 LogBox.ignoreLogs(['Require cycle:']);
 
+const SERVER_URL = "http://localhost:5000/";
+
 const defaultPresentation: PresentationData = {
   components: [],
 };
@@ -15,7 +17,7 @@ export default function App() {
   React.useEffect(() => {
     async function init() {
       try {
-        const response = await fetch("http://localhost:5000/");
+        const response = await fetch(SERVER_URL);
         const data = await response.json();
         console.log(data);
         setPresentationData(data);
