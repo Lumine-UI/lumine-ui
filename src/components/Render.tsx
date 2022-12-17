@@ -9,7 +9,8 @@ import type {
   Ionicon,
   Navigator,
   Screen,
-  Image
+  Image,
+  ScrollView
 } from "./types";
 import TextImpl from "./Text";
 import ViewImpl from "./View";
@@ -20,6 +21,11 @@ import IoniconImpl from "./Ionicon";
 import ScreenImpl from "./Screen";
 import NavigatorImpl from "./Navigator";
 import ImageImpl from "./Image";
+import ScrollViewImpl from "./ScrollView";
+import TextInputImpl from "./TextInput";
+import type { TextInput } from "react-native";
+import type { CardType } from "lumine-ui";
+import CardImpl from "./Card";
 
 const Render: React.FC<{ component: Component; key?: string | number }> = ({
   component,
@@ -47,8 +53,16 @@ const Render: React.FC<{ component: Component; key?: string | number }> = ({
           {...(component as LumineContextComponent)}
         />
       );
+    case "ScrollViewType":
+      return <ScrollViewImpl key={key} {...(component as ScrollView)} />;
+    case "ScrollView":
+      return <ScrollViewImpl key={key} {...(component as ScrollView)} />;
     case "Image":
       return <ImageImpl key={key} {...(component as Image)} />;
+    case "TextInput":
+      return <TextInputImpl key={key} {...(component as TextInput)} />;
+    case "Card":
+      return <CardImpl key={key} {...(component as CardType)} />;
     default:
       return null;
   }

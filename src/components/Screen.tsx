@@ -13,7 +13,6 @@ const ScreenImpl: React.FC<any> = ({route}) => {
     React.useEffect(() => {
         async function init() {
             try {
-                console.log("url", url);
                 if(url) {
                     const response = await fetch(url);
                     const data = await response.json();

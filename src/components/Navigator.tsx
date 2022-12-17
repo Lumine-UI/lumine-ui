@@ -18,7 +18,7 @@ const configureScreenOptions = (
   switch (navigatorType) {
     case "stack":
       return {
-        headerShown: false,
+        headerShown: true,
       };
     case "material-bottom-tab":
       return {
@@ -81,7 +81,6 @@ const NavigatorImpl: React.FC<Navigator> = (props: Navigator) => {
       }}
     >
       {screens?.map((screen, index) => {
-        console.log("screen", screen);
         return (
           <NavigatorType.Screen
             key={index.toString()}

@@ -1,15 +1,12 @@
 import { Button as RNPButton } from "react-native-paper";
-import type { Button, Action } from "./types";
+import type { Button } from "./types";
 import { Render } from "./Render";
-import LumineContext from "./LumineContext";
-import React from "react";
-
-const isAction = (action: Action | string | undefined): action is Action => {
-  return typeof action === "object" && action !== null && "type" in action;
-};
+import React, { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
+import { isAction } from "../ActionHandler";
 
 const ButtonImpl: React.FC<Button> = (props: Button) => {
-  const { buttonProps, child, onPress } = props;
+  const { buttonProps, child, onPress, contexts } = props;
 
   if (onPress && isAction(onPress)) {
     if (
@@ -17,23 +14,61 @@ const ButtonImpl: React.FC<Button> = (props: Button) => {
       onPress.stateVariableName &&
       onPress.stateOperation
     ) {
-      const { state, setState } = React.useContext(LumineContext);
+
+      const varStr = onPress.stateVariableName.substring(2, onPress.stateVariableName.length - 2);
+
+      const ctxName = varStr.split(".")[0];
+      const varName = varStr.split(".")[1];
+
+      if (ctxName && varName && contexts) {
+        // @ts-ignore
+        const { state, setState } = React.useContext(contexts[ctxName]);
+        const onPressStateOperation = eval(onPress.stateOperation);
+        return (
+          <RNPButton
+            {...buttonProps}
+            onPress={() => {
+              setState(
+                state.map((element) => {
+                  if (element.name === varName) {
+                    return {
+                      ...element,
+                      value: onPressStateOperation(element.value),
+                    };
+                  }
+                  return element;
+                })
+              );
+            }}
+          >
+            <Render component={child} />
+          </RNPButton>
+        );
+      }
+    }
+    else if (onPress.type === "navigateBack" || "navigateTo") {
+      const navigation = useNavigation();
+      const [onPressHandler, setOnPressHandler] = useState(() => {});
+
+      React.useEffect(() => {
+        if (onPress.type === "navigateBack") {
+          setOnPressHandler(() => () => navigation.goBack());
+        }
+        else if (onPress.type === "navigateTo") {
+          // console.log(onPress.screenName)
+          if(onPress.screenName) {
+            // @ts-ignore
+            setOnPressHandler(() => () => navigation.navigate(onPress.screenName, onPress.params));
+          }
+        }
+      }, [onPress]);
+
+
       return (
         <RNPButton
           {...buttonProps}
-          onPress={() => {
-            setState(
-              state.map((element) => {
-                if (element.name === onPress.stateVariableName) {
-                  return {
-                    ...element,
-                    value: eval(`${element.value}${onPress.stateOperation}`),
-                  };
-                }
-                return element;
-              })
-            );
-          }}
+          // @ts-ignore
+          onPress={onPressHandler}
         >
           <Render component={child} />
         </RNPButton>

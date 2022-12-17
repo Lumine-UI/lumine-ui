@@ -9,6 +9,8 @@ import type {
   ImageProps
 } from "react-native";
 import type Color from "../../constants/colors";
+import type { LumineContextParams } from "../LumineContext";
+import type { TextInputProps } from "react-native-paper";
 
 export type Orientation = "horizontal" | "vertical";
 
@@ -23,6 +25,7 @@ export type ComponentType =
   | "Screen"
   | "Navigator"
   | "Image"
+  | "ScrollView"
   | "LumineContextComponent";
 
 export type ActionType =
@@ -36,19 +39,25 @@ export type ActionType =
   | "head"
   | "delete"
   | "options"
-  | "stateUpdate";
+  | "stateUpdate"
+  | "custom";
 
 export interface Action {
   type: ActionType | string;
+  screenName?: string;
+  params?: any;
   url?: string;
   route?: string;
   stateVariableName?: string;
   stateOperation?: string;
+  customAction?: string;
+  customArgs?: string;
 }
 
 export interface Component {
   type?: ComponentType | string;
   id?: string | number;
+  contexts?: { [key: string]: React.Context<LumineContextParams> };
 }
 
 export interface StateVariable {
@@ -57,13 +66,13 @@ export interface StateVariable {
 }
 
 export interface LumineContextComponent extends Component {
+  name: string;
   children?: Component[];
   stateVariables?: StateVariable[];
 }
 
 export interface Text extends Component {
   text?: string;
-  textVariableName?: string;
   child?: Component;
   textProps?: TextProps;
   onLayout?: string | undefined;
@@ -152,6 +161,24 @@ export interface Ionicon extends Component {
   iconProps: IconProps<string>;
 }
 
+export interface TextInput extends Component {
+  textInputProps?: TextInputProps;
+  render?: Action | string | undefined;
+  onBlur?: Action | string | undefined;
+  onChange?: Action | string | undefined;
+  onChangeText?: Action | string | undefined;
+  onContentSizeChange?: Action | string | undefined;
+  onEndEditing?: Action | string | undefined;
+  onPressIn?: Action | string | undefined;
+  onPressOut?: Action | string | undefined;
+  onFocus?: Action | string | undefined;
+  onSelectionChange?: Action | string | undefined;
+  onSubmitEditing?: Action | string | undefined;
+  onTextInput?: Action | string | undefined;
+  onScroll?: Action | string | undefined;
+  onKeyPress?: Action | string | undefined;
+}
+
 export type NavigatorType = "stack" | "bottom-tab" | "material-bottom-tab";
 
 export interface Screen extends Component {
@@ -161,12 +188,20 @@ export interface Screen extends Component {
   tabBarFocusedIcon?: Ionicon;
 }
 
+export interface Card extends Component {
+  viewProps?: ViewProps;
+  children?: Component[];
+  elevation?: number;
+}
+
 export interface Navigator extends Component {
   navigatorType: NavigatorType;
   screens?: Screen[];
   headerShown?: boolean;
 }
-export interface ScrollViewType extends Component {
+
+export interface ScrollView extends Component {
+  style?: StyleProp<ViewStyle>;
   orientation: Orientation;
   items: Component[];
 }
