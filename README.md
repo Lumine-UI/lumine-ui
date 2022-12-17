@@ -20,7 +20,7 @@ To create a new react-native (expo) app with lumine-ui, run the following comman
 npx create-lumine-app <app_name>
 ```
 
-### In an existing expo app
+### Adding to an existing expo app
 
 To add lumine-ui to an already existing expo app, install the package by using the following command.
 
