@@ -74,7 +74,7 @@ This will initialize a react-native (expo) based counter app.
 
 ## Server Samples
 
-TODO
+The server samples required for Lumine UI can be found [here](https://github.com/Lumine-UI/server-samples).
 
 ## NOTE
 
