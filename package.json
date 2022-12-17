@@ -46,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/Lumine-UI/lumine-ui/issues"
   },
-  "homepage": "https://github.com/Lumine-UI/lumine-ui#readme",
+  "homepage": "https://lumineui.vercel.app/",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
