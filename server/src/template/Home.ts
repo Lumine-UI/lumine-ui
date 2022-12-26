@@ -5,6 +5,7 @@ const Home = (articles: any[]) => new Presentation({
   components: [
     new StatusBar({
       statusBarProps: {
+        backgroundColor: "white",
         barStyle: "dark-content",
       }
     }),
